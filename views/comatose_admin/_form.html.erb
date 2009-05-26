@@ -38,6 +38,14 @@
     <td class="field"><%= f.text_area :body, :rows=>20, :tabindex=>2 %></td>
   </tr>
 
+  <tr id="comatose_stylesheet_id_row" class="meta-info">
+    <td class="label"><label for="page_comatose_stylesheet_id">Style</label></td>
+    <td class="field">
+      <%= select_tag 'page[comatose_stylesheet_id]', options_for_select([['Select', 0]] + ComatoseStylesheet.all.collect{|style| [style.name, style.id]}, @page.comatose_stylesheet_id), :tabindex => 3, :id => 'page_comatose_stylesheet_id' %>
+      <span class="field-help">Sets stylesheet for a page</span>
+    </td>
+  </tr>
+	
 <% if show_field? 'filter' %>
   <tr id="filter_row" class="meta-info">
     <td class="label"><label for="page_filter_type">Filter</label></td>

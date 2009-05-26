@@ -1,0 +1,19 @@
+<h1>Listing comatose_stylesheets</h1>
+
+<table>
+  <tr>
+    <th colspan='3'>Name</th>
+  </tr>
+
+<% for comatose_stylesheet in @comatose_stylesheets %>
+  <tr>
+    <td><%=h comatose_stylesheet.name %></td>
+    <td><%= link_to 'Edit', :action => 'edit_stylesheet', :id => comatose_stylesheet %></td>
+    <td><%= link_to 'Destroy', {:action => 'delete_stylesheet', :id => comatose_stylesheet}, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New comatose_stylesheet', :action => 'new_stylesheet' %>

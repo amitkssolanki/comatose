@@ -9,7 +9,7 @@ class <%= class_name %> < ActiveRecord::Migration
   # Schema for Comatose version 0.7+
   def self.up
     create_table :comatose_pages do |t|
-      t.integer   "parent_id"
+      t.integer   "parent_id", "comatose_stylesheet_id"
       t.text      "full_path",   :default => ''
       t.string    "title",       :limit => 255
       t.string    "slug",        :limit => 255
@@ -23,12 +23,17 @@ class <%= class_name %> < ActiveRecord::Migration
       t.datetime  "created_on"
     end
     ComatosePage.create_versioned_table
+    create_table "comatose_stylesheets" do |t|
+      t.string :name
+      t.text :body
+    end
     puts "Creating the default 'Home Page'..."
     ComatosePage.create( :title=>'Home Page', :body=>"h1. Welcome\n\nYour content goes here...", :author=>'System' )
   end
 
   def self.down
     ComatosePage.drop_versioned_table
+    drop_table :comatose_stylesheets
     drop_table :comatose_pages
   end
 

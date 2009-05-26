@@ -15,6 +15,7 @@ class ComatosePage < ActiveRecord::Base
   
   set_table_name 'comatose_pages'
   
+  belongs_to :comatose_stylesheet
   # Only versions the content... Not all of the meta data or position
   acts_as_versioned :table_name=>'comatose_page_versions', :if_changed => [:title, :slug, :keywords, :body]
   
@@ -81,6 +82,9 @@ class ComatosePage < ActiveRecord::Base
   def to_html(options={})
     #version = options.delete(:version)
     text = self.body
+    if self.comatose_stylesheet
+      text = "<style>#{self.comatose_stylesheet.body}</style>" + text
+    end
     binding = Comatose::ProcessingContext.new(self, options)
     filter_type = self.filter_type || '[No Filter]'
     TextFilters.transform(text, binding, filter_type, Comatose.config.default_processor)

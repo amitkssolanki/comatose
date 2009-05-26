@@ -160,6 +160,50 @@ class ComatoseAdminController < ActionController::Base
     redirect_to :controller=>self.controller_name, :action=>'index'
   end
 
+  def stylesheets
+    @comatose_stylesheets = ComatoseStylesheet.all
+  end
+
+  def new_stylesheet
+    @comatose_stylesheet = ComatoseStylesheet.new
+  end
+
+  def edit_stylesheet
+    @comatose_stylesheet = ComatoseStylesheet.find(params[:id])
+  end
+
+  def create_stylesheet
+    @comatose_stylesheet = ComatoseStylesheet.new(params[:comatose_stylesheet])
+    if @comatose_stylesheet.save
+      flash[:notice] = 'ComatoseStylesheet was successfully created.'
+      redirect_to :controller => self.controller_name, :action => 'stylesheets'
+    else
+      render :action => "new_stylesheet"
+    end
+  end
+
+  def update_stylesheet
+    @comatose_stylesheet = ComatoseStylesheet.find(params[:id])
+    if @comatose_stylesheet.update_attributes(params[:comatose_stylesheet])
+      flash[:notice] = 'ComatoseStylesheet was successfully updated.'
+      redirect_to :controller => self.controller_name, :action => 'stylesheets'
+    else
+      render :action => "edit_stylesheet"
+    end
+  end
+
+  # DELETE /comatose_stylesheets/1
+  # DELETE /comatose_stylesheets/1.xml
+  def destroy_stylesheet
+    @comatose_stylesheet = ComatoseStylesheet.find(params[:id])
+    @comatose_stylesheet.destroy
+
+    respond_to do |format|
+      format.html { redirect_to(comatose_stylesheets_url) }
+      format.xml  { head :ok }
+    end
+  end
+
 protected
 
   def handle_authorization
